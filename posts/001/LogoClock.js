@@ -11,7 +11,7 @@ const timeToDegreesFactory = timeMax => time => {
   return (time * degreesMax) / timeMax;
 };
 
-const hoursToDegrees = timeToDegreesFactory(23);
+const hoursToDegrees = timeToDegreesFactory(11);
 const minOrSecToDegrees = timeToDegreesFactory(59);
 
 export default (/*{ hours = 0, minutes = 0, seconds = 0 }*/) => {
@@ -35,6 +35,8 @@ export default (/*{ hours = 0, minutes = 0, seconds = 0 }*/) => {
       {/* Hours */}
       <ThreeQuarter
         initialAngle={hoursToDegrees(hours)}
+        animationDuration={1.2}
+        animationDelay={0.6}
         timeCycle={86400}
         totalLength={4713}
         d="M392.9 392.9C2.36 783.41 2.36 1416.57 392.9 1807.1c390.52 390.53 1023.68 390.53 1414.2 0 390.53-390.52 390.53-1023.68 0-1414.2"
@@ -42,6 +44,8 @@ export default (/*{ hours = 0, minutes = 0, seconds = 0 }*/) => {
       {/* Minutes */}
       <ThreeQuarter
         initialAngle={minOrSecToDegrees(minutes)}
+        animationDuration={1}
+        animationDelay={0.4}
         timeCycle={3600}
         totalLength={2945}
         d="M1541.94 658.06c244.08 244.08 244.08 639.8 0 883.88-244.08 244.08-639.8 244.08-883.88 0-244.08-244.08-244.08-639.8 0-883.88"
@@ -49,6 +53,8 @@ export default (/*{ hours = 0, minutes = 0, seconds = 0 }*/) => {
       {/* Seconds */}
       <ThreeQuarter
         initialAngle={minOrSecToDegrees(seconds)}
+        animationDuration={0.8}
+        animationDelay={0.2}
         timeCycle={60}
         totalLength={1178}
         d="M923.22 923.22c-97.63 97.63-97.63 255.93 0 353.56s255.93 97.63 353.56 0 97.63-255.93 0-353.56"
@@ -101,7 +107,8 @@ const ThreeQuarter = styled.path`
   transform-origin: 1100px 1100px;
   --initial-angle: ${props => props.initialAngle || 0}deg;
   --total-length: ${props => props.totalLength};
-  animation: ${drawPath} 0.6s ease-out forwards 0.2s,
+  animation: ${drawPath} ${props => props.animationDuration}s ease-out forwards
+      ${props => props.animationDelay}s,
     ${makeTime} ${props => props.timeCycle}s linear infinite;
   stroke-dashoffset: var(--total-length);
   stroke-dasharray: 0 var(--total-length);
