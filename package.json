@@ -6,10 +6,7 @@
   "author": "xavxyz <xavier.cazalot@gmail.com> & karldanninger <karl.danninger@gmail.com>",
   "scripts": {
     "dev": "next",
-    "build": "next build",
-    "glow": "glow",
-    "start": "next start",
-    "export": "next export -o .out"
+    "now-build": "next build"
   },
   "dependencies": {
     "@mdx-js/mdx": "^0.16.6",
@@ -20,13 +17,5 @@
     "react": "^16.8.0-alpha.1",
     "react-dom": "^16.8.0-alpha.1",
     "styled-components": "^4.0.2"
-  },
-  "devDependencies": {
-    "babel-eslint": "8.2.6",
-    "babel-plugin-styled-components": "^1.8.0",
-    "babel-plugin-transform-flow-strip-types": "6.22.0",
-    "eslint": "^5.9.0",
-    "flow-bin": "^0.86.0",
-    "glow": "^1.2.2"
   }
 }

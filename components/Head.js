@@ -1,7 +1,5 @@
-// @flow
 import * as React from 'react';
 import NextHead from 'next/head';
-import getConfig from 'next/config';
 
 const {
   publicRuntimeConfig: { GA_TRACKING_ID },
