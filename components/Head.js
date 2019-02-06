@@ -1,9 +1,8 @@
 import * as React from 'react';
 import NextHead from 'next/head';
 
-const {
-  publicRuntimeConfig: { GA_TRACKING_ID },
-}: { publicRuntimeConfig: { GA_TRACKING_ID: string } } = getConfig();
+const GA_TRACKING_ID =
+  process.env.NODE_ENV === 'development' ? '' : 'UA-134090905-1';
 
 export default function Head() {
   return (
