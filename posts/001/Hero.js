@@ -11,7 +11,7 @@ const Hero = styled.section`
   justify-content: center;
   align-items: center;
   height: 100vh;
-  animation: ${moveUp} 2s cubic-bezier(0, 0.5, 0.4, 1.1) forwards 2.5s;
+  animation: ${moveUp} 2s cubic-bezier(0, 0.4, 0.4, 1.1) forwards 2.2s;
 `;
 
 export default Hero;

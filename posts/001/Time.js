@@ -1,20 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
+import useInterval from './useInterval';
 
 export default function Time() {
-  const [, forceUpdate] = useState();
+  const [date, forceUpdateToNewDate] = useState(new Date());
 
-  useEffect(() => {
-    const ticTac = setInterval(() => {
-      forceUpdate();
-    }, 1000);
+  useInterval(() => {
+    forceUpdateToNewDate(new Date());
+  }, 1000);
 
-    return () => {
-      clearInterval(ticTac);
-    };
-  });
-
-  const date = new Date();
   const localizedDate = date.toLocaleString('en-US', {
     hour: 'numeric',
     minute: 'numeric',

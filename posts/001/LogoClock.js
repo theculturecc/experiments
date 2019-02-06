@@ -1,4 +1,5 @@
-import styled, { keyframes } from 'styled-components';
+import React, { useState, useEffect } from 'react';
+import styled, { keyframes, css } from 'styled-components';
 
 /*
  Vanilla JS & CSS version of this animation is available at:
@@ -11,15 +12,29 @@ const timeToDegreesFactory = timeMax => time => {
   return (time * degreesMax) / timeMax;
 };
 
-const hoursToDegrees = timeToDegreesFactory(11);
+const hoursToDegrees = time => {
+  const transformation = timeToDegreesFactory(11);
+
+  return transformation(time >= 12 ? time - 12 : time);
+};
 const minOrSecToDegrees = timeToDegreesFactory(59);
 
-export default (/*{ hours = 0, minutes = 0, seconds = 0 }*/) => {
-  const date = new Date();
+export default ({ startMakingTimeAfter = 1300 }) => {
+  const [hoursAngle, setHoursAngle] = useState(0);
+  const [minutesAngle, setMinutesAngle] = useState(0);
+  const [secondsAngle, setSecondsAngle] = useState(0);
 
-  const hours = date.getHours();
-  const minutes = date.getMinutes();
-  const seconds = date.getSeconds();
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      const date = new Date();
+
+      const hours = setHoursAngle(hoursToDegrees(date.getHours()));
+      const minutes = setMinutesAngle(minOrSecToDegrees(date.getMinutes()));
+      const seconds = setSecondsAngle(minOrSecToDegrees(date.getSeconds()));
+    }, startMakingTimeAfter);
+
+    return () => clearTimeout(timeout);
+  }, []);
 
   return (
     <Svg
@@ -34,25 +49,25 @@ export default (/*{ hours = 0, minutes = 0, seconds = 0 }*/) => {
       </title>
       {/* Hours */}
       <ThreeQuarter
-        initialAngle={hoursToDegrees(hours)}
+        initialAngle={hoursAngle}
         animationDuration={1.2}
-        animationDelay={0.6}
+        animationDelay={0.2}
         timeCycle={86400}
         totalLength={4713}
         d="M392.9 392.9C2.36 783.41 2.36 1416.57 392.9 1807.1c390.52 390.53 1023.68 390.53 1414.2 0 390.53-390.52 390.53-1023.68 0-1414.2"
       />
       {/* Minutes */}
       <ThreeQuarter
-        initialAngle={minOrSecToDegrees(minutes)}
+        initialAngle={minutesAngle}
         animationDuration={1}
-        animationDelay={0.4}
+        animationDelay={0.2}
         timeCycle={3600}
         totalLength={2945}
         d="M1541.94 658.06c244.08 244.08 244.08 639.8 0 883.88-244.08 244.08-639.8 244.08-883.88 0-244.08-244.08-244.08-639.8 0-883.88"
       />
       {/* Seconds */}
       <ThreeQuarter
-        initialAngle={minOrSecToDegrees(seconds)}
+        initialAngle={secondsAngle}
         animationDuration={0.8}
         animationDelay={0.2}
         timeCycle={60}
@@ -93,6 +108,15 @@ const makeTime = keyframes`
   }
 `;
 
+const goToTime = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(var(--initial-angle));
+  }
+`;
+
 const drawPath = keyframes`
   0% {
     stroke-dasharray: 0 var(--total-length);
@@ -103,13 +127,18 @@ const drawPath = keyframes`
   }
 `;
 
+// prettier-ignore
 const ThreeQuarter = styled.path`
   transform-origin: 1100px 1100px;
-  --initial-angle: ${props => props.initialAngle || 0}deg;
+  --initial-angle: ${props => props.initialAngle}deg;
   --total-length: ${props => props.totalLength};
-  animation: ${drawPath} ${props => props.animationDuration}s ease-out forwards
-      ${props => props.animationDelay}s,
-    ${makeTime} ${props => props.timeCycle}s linear infinite;
+  animation:
+    ${drawPath} ${props => props.animationDuration}s ease-out forwards ${props => props.animationDelay}s
+    ${// add other animation related to time once the date has been calculated client-side
+      props => props.initialAngle ? css`
+      , ${goToTime} 1s cubic-bezier(0.4,-0.6,0.4,1.2) forwards
+      , ${makeTime} ${props.timeCycle}s linear 1s infinite
+    ` : ""};
   stroke-dashoffset: var(--total-length);
   stroke-dasharray: 0 var(--total-length);
   opacity: 0;
