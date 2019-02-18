@@ -91,7 +91,6 @@ a {
   text-decoration: none;
   color: inherit;
   outline: 0;
-  font-weight: 700;
   cursor: url(static/cursor-pointer.png), pointer;
 
   &:active {

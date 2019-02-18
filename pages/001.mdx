@@ -3,6 +3,7 @@ import Hero from '../posts/001/Hero.js';
 import TimeProvider from '../posts/001/TimeProvider.js';
 import TwentyFourHoursClock from '../posts/001/TwentyFourHoursClock.js';
 import Time from '../posts/001/Time.js';
+import Emphasis from '../posts/001/Emphasis.js';
 import Logo from '../components/Logo.js';
 import GetTheNews from '../components/GetTheNews.js';
 
@@ -13,8 +14,8 @@ import GetTheNews from '../components/GetTheNews.js';
   </Hero>
 
 This is not a loading spinner.<br />
-This is a fancy clock.<br />
-This is <Time />
+This is a <strong>fancy clock</strong>.<br />
+This is <Emphasis><Time /></Emphasis>
 
 </TimeProvider>
 
@@ -28,13 +29,18 @@ This is <Time />
 <Logo width="50%" viewBox="0 190 800 220" />
 <p />
 
-Culture is the culmination of<br />
-passion over time and the many<br />
-layers of collective achievement<br />
-as one cohesive unit.<br />
+<p>
+  <strong>Culture</strong> is the peak of <Emphasis>passion</Emphasis>
+  <br />
+  over <Emphasis>time</Emphasis> and the many layers
+  <br />
+  of collective achievement
+  <br />
+  as one cohesive <Emphasis>unit</Emphasis>.
+</p>
 
-Welcome to The Culture,<br />
-a creative collective <br />
+Welcome to <strong>The Culture</strong>,<br />
+a creative collective<br />
 by Karl and Xavier.
 
 <GetTheNews />
