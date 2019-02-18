@@ -53,7 +53,8 @@ export default function GetTheNews() {
         <a href="https://twitter.com/theCultureCC" target="_blank">
           Twitter
         </a>
-        .
+        .<br />
+        <div id="only-joy">No spam, only joy.</div>
       </div>
     </section>
   );

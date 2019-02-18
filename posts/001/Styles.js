@@ -207,6 +207,10 @@ p, input {
     text-align: center;
     line-height: 140%;
   }
+
+  #only-joy {
+    opacity: 0.3;
+  }
 }
 
 @keyframes blink {
