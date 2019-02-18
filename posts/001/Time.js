@@ -1,30 +1,16 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import styled, { keyframes } from 'styled-components';
-import useInterval from './useInterval';
+import { TimeContext } from './TimeProvider';
 
 export default function Time() {
-  const [date, forceUpdateToNewDate] = useState(new Date());
-
-  useInterval(() => {
-    forceUpdateToNewDate(new Date());
-  }, 1000);
-
-  const localizedDate = date.toLocaleString('en-US', {
-    hour: 'numeric',
-    minute: 'numeric',
-    second: 'numeric',
-    hour12: true,
-  });
-
-  const [time, meridiem] = localizedDate.split(' ');
-  const [hours, minutes, seconds] = time.split(':');
+  const { hours, minutes, seconds } = useContext(TimeContext);
 
   return (
     <>
+      {/* no time.split(':').map(...) in the name of clarity */}
       <Appear key={`h-${hours}`}>{hours}</Appear>:
       <Appear key={`m-${minutes}`}>{minutes}</Appear>:
-      <Appear key={`s-${seconds}`}>{seconds}</Appear>{' '}
-      <Appear key={meridiem}>{meridiem}</Appear>
+      <Appear key={`s-${seconds}`}>{seconds}</Appear>
     </>
   );
 }

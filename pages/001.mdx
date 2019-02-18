@@ -1,20 +1,21 @@
 import Styles from '../posts/001/Styles.js';
 import Hero from '../posts/001/Hero.js';
-import LogoClock from '../posts/001/LogoClock.js';
+import TimeProvider from '../posts/001/TimeProvider.js';
+import TwentyFourHoursClock from '../posts/001/TwentyFourHoursClock.js';
 import Time from '../posts/001/Time.js';
 import GetTheNews from '../components/GetTheNews.js';
 
 <Styles />
-
+<TimeProvider>
 <Hero>
-  <LogoClock />
+    <TwentyFourHoursClock />
 </Hero>
 
 This is not a loading spinner.<br />
 This is a fancy clock.<br />
 This is <Time />
 
-What a time to be alive, isn't it?
+</TimeProvider>
 
 Culture is the culmination of<br />
 passion over time and the many<br />

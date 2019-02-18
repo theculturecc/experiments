@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled, { keyframes, css } from 'styled-components';
+import { TimeContext } from './TimeProvider';
 
 /*
  Vanilla JS & CSS version of this animation is available at:
@@ -12,26 +13,31 @@ const timeToDegreesFactory = timeMax => time => {
   return (time * degreesMax) / timeMax;
 };
 
-const hoursToDegrees = time => {
-  const transformation = timeToDegreesFactory(11);
-
-  return transformation(time >= 12 ? time - 12 : time);
-};
+const hoursToDegrees = timeToDegreesFactory(23);
 const minOrSecToDegrees = timeToDegreesFactory(59);
 
-export default ({ startMakingTimeAfter = 1300 }) => {
-  const [hoursAngle, setHoursAngle] = useState(0);
-  const [minutesAngle, setMinutesAngle] = useState(0);
-  const [secondsAngle, setSecondsAngle] = useState(0);
+function useTime(interpolation) {
+  const [angle, setAngle] = useState(0);
 
+  const updater = time => {
+    setAngle(interpolation(time));
+  };
+
+  return [angle, updater];
+}
+
+export default function TwentyFourHoursClock({ clockStartDelay = 1300 }) {
+  const [hoursAngle, setHoursAngle] = useTime(hoursToDegrees);
+  const [minutesAngle, setMinutesAngle] = useTime(minOrSecToDegrees);
+  const [secondsAngle, setSecondsAngle] = useTime(minOrSecToDegrees);
+
+  const { hours, minutes, seconds } = useContext(TimeContext);
   useEffect(() => {
     const timeout = setTimeout(() => {
-      const date = new Date();
-
-      const hours = setHoursAngle(hoursToDegrees(date.getHours()));
-      const minutes = setMinutesAngle(minOrSecToDegrees(date.getMinutes()));
-      const seconds = setSecondsAngle(minOrSecToDegrees(date.getSeconds()));
-    }, startMakingTimeAfter);
+      setHoursAngle(hours);
+      setMinutesAngle(minutes);
+      setSecondsAngle(seconds);
+    }, clockStartDelay);
 
     return () => clearTimeout(timeout);
   }, []);
@@ -44,12 +50,12 @@ export default ({ startMakingTimeAfter = 1300 }) => {
       aria-labelledby="title"
     >
       <title id="title">
-        The Culture logo, three concentric 3/4-circles rotating with the time
-        (hours, minutes, seconds).
+        The Culture logo represented as three concentric 3/4-circles rotating
+        with the time (24 hours, 60 minutes, 60 seconds).
       </title>
       {/* Hours */}
       <ThreeQuarter
-        initialAngle={hoursAngle}
+        angle={hoursAngle}
         animationDuration={1.2}
         animationDelay={0.2}
         timeCycle={86400}
@@ -58,7 +64,7 @@ export default ({ startMakingTimeAfter = 1300 }) => {
       />
       {/* Minutes */}
       <ThreeQuarter
-        initialAngle={minutesAngle}
+        angle={minutesAngle}
         animationDuration={1}
         animationDelay={0.2}
         timeCycle={3600}
@@ -67,7 +73,7 @@ export default ({ startMakingTimeAfter = 1300 }) => {
       />
       {/* Seconds */}
       <ThreeQuarter
-        initialAngle={secondsAngle}
+        angle={secondsAngle}
         animationDuration={0.8}
         animationDelay={0.2}
         timeCycle={60}
@@ -76,13 +82,9 @@ export default ({ startMakingTimeAfter = 1300 }) => {
       />
     </Svg>
   );
-};
+}
 
 const Svg = styled.svg`
-  fill: none;
-  stroke: #282725;
-  stroke-width: 200;
-
   width: 150px;
 
   /* Larger than iphone 5s */
@@ -129,13 +131,16 @@ const drawPath = keyframes`
 
 // prettier-ignore
 const ThreeQuarter = styled.path`
+  fill: none;
+  stroke: #282725;
+  stroke-width: 200;
   transform-origin: 1100px 1100px;
-  --initial-angle: ${props => props.initialAngle}deg;
+  --initial-angle: ${props => props.angle}deg;
   --total-length: ${props => props.totalLength};
   animation:
     ${drawPath} ${props => props.animationDuration}s ease-out forwards ${props => props.animationDelay}s
-    ${// add other animation related to time once the date has been calculated client-side
-      props => props.initialAngle ? css`
+    ${// add other animation related to time once the clock has been started
+      props => props.angle ? css`
       , ${goToTime} 1s cubic-bezier(0.4,-0.6,0.4,1.2) forwards
       , ${makeTime} ${props.timeCycle}s linear 1s infinite
     ` : ""};
