@@ -3,19 +3,30 @@ import Hero from '../posts/001/Hero.js';
 import TimeProvider from '../posts/001/TimeProvider.js';
 import TwentyFourHoursClock from '../posts/001/TwentyFourHoursClock.js';
 import Time from '../posts/001/Time.js';
+import Logo from '../components/Logo.js';
 import GetTheNews from '../components/GetTheNews.js';
 
 <Styles />
 <TimeProvider>
-<Hero>
+  <Hero>
     <TwentyFourHoursClock />
-</Hero>
+  </Hero>
 
 This is not a loading spinner.<br />
 This is a fancy clock.<br />
 This is <Time />
 
 </TimeProvider>
+
+<!--
+  White Space consistency:
+  - adjust the Logo view box so there is almost no top/bottom padding
+  - add an empty <p /> tag to have the same responsive margin as other paragraphs
+  - write the description of the system inside an HTML comment (isn't that awesome?!)
+-->
+
+<Logo width="50%" viewBox="0 190 800 220" />
+<p />
 
 Culture is the culmination of<br />
 passion over time and the many<br />
