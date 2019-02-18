@@ -5,8 +5,9 @@ import TwentyFourHoursClock from '../posts/001/TwentyFourHoursClock.js';
 import Time from '../posts/001/Time.js';
 import Emphasis from '../posts/001/Emphasis.js';
 import Floater from '../posts/001/Floater.js';
-import Logo from '../components/Logo.js';
+import Logo, { LogoManager, CeeController } from '../components/Logo.js';
 import GetTheNews from '../components/GetTheNews.js';
+
 
 <Styles />
 <TimeProvider>
@@ -16,29 +17,24 @@ import GetTheNews from '../components/GetTheNews.js';
 
 This is not a loading spinner.<br />
 This is a <strong>fancy clock</strong>.<br />
-This is <Emphasis><Time /></Emphasis>
+This is <Time />
 
 </TimeProvider>
 
-<!--
-  White Space consistency:
-  - adjust the Logo view box so there is almost no top/bottom padding
-  - add an empty <p /> tag to have the same responsive margin as other paragraphs
-  - write the description of the system inside an HTML comment (isn't that awesome?!)
--->
+<LogoManager>
+  <Logo width="50%" viewBox="0 190 800 220" />
+  <p />
 
-<Logo width="50%" viewBox="0 190 800 220" />
-<p />
-
-<p>
-  <strong>Culture</strong> is the peak of <Emphasis>passion</Emphasis>
-  <br />
-  over <Emphasis>time</Emphasis> and the many layers
-  <br />
-  of collective achievement
-  <br />
-  as one cohesive <Emphasis>unit</Emphasis>.
-</p>
+  <p>
+    <strong>Culture</strong> is the peak of <CeeController type="Middle"><Emphasis>passion</Emphasis></CeeController>
+    <br />
+    over <CeeController type="Inner"><Emphasis>time</Emphasis></CeeController> and the many layers
+    <br />
+    of collective achievement
+    <br />
+    as one cohesive <CeeController type="Combo"><Emphasis>unit</Emphasis></CeeController>.
+  </p>
+</LogoManager>
 
 Welcome to <strong>The Culture</strong>,<br />
 a <Floater>creative collective</Floater><br />
