@@ -40,7 +40,7 @@ export default function TwentyFourHoursClock({ clockStartDelay = 1300 }) {
     }, clockStartDelay);
 
     return () => clearTimeout(timeout);
-  }, []);
+  }, [clockStartDelay]);
 
   return (
     <Svg
